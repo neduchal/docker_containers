@@ -29,8 +29,9 @@ Spuštění pro testovací kontejnery home_navigation:
 
 > docker run --privileged -d --name home_navigation_foxy --device /dev/nvidia0:/dev/nvidia0 --device /dev/nvidiactl:/dev/nvidiactl -v /dev:/dev -e DISPLAY=$DISPLAY -v /tmp/.X11-unix/:/tmp/.X11-unix/ -v /home/neduchal/Dokumenty/Projects/ros2_custom_msgs:/home/neduchal/ros2_ws/src/ros2_custom_msgs -v /home/neduchal/Dokumenty/Projects/t265_ros2_wrapper:/home/neduchal/ros2_ws/src/t265_ros2_wrapper -w /home/neduchal/ros2_ws --rm --gpus all home_navigation_foxy:latest tail -f /dev/null
 
-A pak dále připojení:
+A pak dále připojení, které připojí prostředí ROSu:
 
-> docker exec --privileged -it home_navigation_foxy bash
+>  docker exec --privileged -it home_navigation_foxy bash -c "source /ros_entrypoint.sh && bash"
+
 
 
