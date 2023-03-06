@@ -1,5 +1,5 @@
 FROM osrf/ros:foxy-desktop
-
+SHELL ["/bin/bash", "-c"]
 ARG OPT_PATH=/opt/uwb_ntis
 
 RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
@@ -10,9 +10,13 @@ RUN sudo apt-get -y update &&  sudo apt-get -y upgrade && sudo apt-get -y dist-u
 
 RUN sudo apt-get -y install software-properties-common
 
-RUN sudo apt-get -y install curl zip unzip tar
+RUN sudo apt-get -y install curl zip unzip tar wget mc htop
 
 RUN sudo apt install -y dbus-x11
+
+RUN sudo apt install python3-pip -y
+
+RUN pip3 install pyrealsense2
 
 #  PackageKit-gtk3-module libcanberra-gtk2
 
@@ -42,11 +46,18 @@ RUN cd /home/neduchal/ros2_ws/ && rosdep update && rosdep install -i --from-path
 RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/neduchal/robot_system_core.git $OPT_PATH/robot_system_core
 RUN sudo apt install -y ros-foxy-ament-cmake
 RUN git clone https://github.com/neduchal/home_navigation.git /home/neduchal/ros2_ws/src/home_navigation
-#RUN cd /home/neduchal/ros2_ws/ && bash /opt/ros/foxy/setup.bash && colcon build && . ./install/local_setup.bash
 
-RUN ls opt/uwb_ntis
+#RUN echo "source /opt/ros/foxy/setup.bash" >> ~/.bashrc && . .bashrc
 
-RUN ls $OPT_PATH/robot_system_core
+
+RUN source /opt/ros/foxy/setup.bash && cd /home/neduchal/ros2_ws/ && colcon build && . ./install/local_setup.bash
+
+ENTRYPOINT ["bash","-i","/ros_entrypoint.sh"]
+##RUN source ros_entrypoint.sh && cd /home/neduchal/ros2_ws/ && colcon build && . ./install/local_setup.bash
+
+#RUN ls opt/uwb_ntis
+
+#RUN ls $OPT_PATH/robot_system_core
 
 
 
