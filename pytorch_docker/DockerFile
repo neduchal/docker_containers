@@ -1,0 +1,30 @@
+FROM ubuntu:focal-20230308
+
+# RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+
+#RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null \
+#    && echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+
+RUN apt-get install -y -q
+
+RUN apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade && apt-get -y install git
+
+RUN apt-get install -y python3-pip ninja-build
+
+RUN pip3 install torch==1.10.2+cpu torchvision==0.11.3+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
+
+RUN git clone https://github.com/facebookresearch/detectron2.git /home/exon/detectron2
+
+RUN cd /home/exon && ls && python3 -m pip install -e detectron2
+
+RUN pip3 install scikit-image~=0.19.3 pymodm~=0.4.3 
+
+RUN pip3 install onnx==1.8.1 onnxruntime==1.8.1
+
+RUN pip3 install protobuf==3.19.0
+
+RUN pip3 install numpy==1.19.0
+
+# RUN sudo apt-get -y install curl zip unzip tar
+
+# RUN sudo apt install -y dbus-x11
