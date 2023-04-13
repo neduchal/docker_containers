@@ -1,0 +1,19 @@
+FROM balenalib/jetson-nano-ubuntu-python:3.8-focal-build
+
+# RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
+
+RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null \
+    && echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ bionic main' | tee /etc/apt/sources.list.d/kitware.list >/dev/null
+
+RUN apt-get install -y -q
+
+RUN apt-get -y update && apt-get -y upgrade && apt-get -y dist-upgrade && apt-get -y install git
+
+
+RUN pip3 install bson
+
+RUN mkdir /home/exon && cd /home/exon && git clone -b v0.11.1 https://github.com/pytorch/vision.git
+
+# RUN sudo apt-get -y install curl zip unzip tar
+
+# RUN sudo apt install -y dbus-x11
