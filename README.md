@@ -34,7 +34,10 @@ A pak dále připojení, které připojí prostředí ROSu:
 >  docker exec --privileged -it home_navigation_foxy bash -c "source /ros_entrypoint.sh && bash"
 
 
-> docker run -it --privileged --name exon -e DISPLAY=$DISPLAY -v /home/spravce/exon_jetson:/home/exon/code --rm exon:latest /bin/bash
+> docker run -it --privileged --runtime nvidia --network host --name exon -e DISPLAY=$DISPLAY -v /home/spravce/exon_jetson:/home/exon/code --rm exon_scan:latest /bin/bash
+
+
+Poznamka :https://github.com/Pyrestone/jetson-fan-ctl
 
 
 
