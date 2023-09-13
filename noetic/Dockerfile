@@ -32,10 +32,10 @@ RUN pip3 install pyrealsense2
 #RUN cd $OPT_PATH/vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg integrate install && ./vcpkg install realsense2
 
 
-RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE \
-    && sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
+#RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE \
+#    && sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
 
-RUN sudo apt-get -y update && sudo apt-get install -y librealsense2-dkms librealsense2-utils librealsense2-dev
+#RUN sudo apt-get -y update && sudo apt-get install -y librealsense2-dkms librealsense2-utils librealsense2-dev
 
 # RELASENSE ros 
 RUN sudo apt-get install python3-rosdep -y
@@ -43,13 +43,13 @@ RUN sudo apt-get install python3-rosdep -y
 #RUN cd /home/neduchal/ros_ws/ && rosdep update && rosdep install -i --from-path src --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y
 #sudo rosdep init && noetic
 
-RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/neduchal/robot_system_core.git $OPT_PATH/robot_system_core
-RUN git clone https://github.com/neduchal/home_navigation.git /home/neduchal/ros_ws/src/home_navigation
+#RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/neduchal/robot_system_core.git $OPT_PATH/robot_system_core
+#RUN git clone https://github.com/neduchal/home_navigation.git /home/neduchal/ros_ws/src/home_navigation
 
 #RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && . .bashrc
 
 
-RUN source /opt/ros/noetic/setup.bash && cd /home/neduchal/ros_ws/ 
+RUN source /opt/ros/noetic/setup.bash
 
 ENTRYPOINT ["bash","-i","/ros_entrypoint.sh"]
 ##RUN source ros_entrypoint.sh && cd /home/neduchal/ros_ws/ && colcon build && . ./install/local_setup.bash

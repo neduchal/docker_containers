@@ -36,7 +36,8 @@ RUN sudo apt-get -y update && sudo apt-get install -y librealsense2-dkms libreal
 # RELASENSE ROS2 
 RUN sudo apt-get install python3-rosdep -y
 RUN mkdir -p /home/neduchal/ros2_ws/src && cd /home/neduchal/ros2_ws/src && git clone https://github.com/IntelRealSense/realsense-ros.git -b ros2-development
-RUN cd /home/neduchal/ros2_ws/ && rosdep update && rosdep install -i --from-path src --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y
+RUN sudo rosdep fix-permissions
+RUN cd /home/neduchal/ros2_ws/ && rosdep update && rosdep install -i --from-path src --rosdistro humble --skip-keys=librealsense2 -y
 #sudo rosdep init && 
 
 RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/neduchal/robot_system_core.git $OPT_PATH/robot_system_core
