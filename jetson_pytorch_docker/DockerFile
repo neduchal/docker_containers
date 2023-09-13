@@ -29,6 +29,7 @@ RUN pip3 uninstall -y bson
 RUN pip3 install pymongo
 
 RUN pip3 install psutil
+RUN pip3 install gputil
 
 # RUN mkdir /home/exon && cd /home/exon && git clone -b v0.11.1 https://github.com/pytorch/vision.git
 
