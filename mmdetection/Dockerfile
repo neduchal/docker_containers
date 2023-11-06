@@ -37,4 +37,9 @@ RUN conda clean --all \
     && cd /mmdetection \
     && pip install --no-cache-dir -e .
 
+RUN pip install onnx onnxruntime
+
+RUN apt-get update && apt-get install -y mc htop nano
+
 WORKDIR /mmdetection
+
