@@ -46,6 +46,7 @@ RUN sudo apt-get install python3-rosdep python3-catkin-tools -y
 
 #RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && . .bashrc
 
+
 RUN source /opt/ros/noetic/setup.bash
 
 ENTRYPOINT ["bash","-i","/ros_entrypoint.sh"]

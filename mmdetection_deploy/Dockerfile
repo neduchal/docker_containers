@@ -61,7 +61,7 @@ RUN git clone https://github.com/open-mmlab/mmdeploy.git
 WORKDIR /home/jetson/mmdeploy
 RUN git checkout v0.14.0
 RUN export MMDEPLOY_DIR=/home/jetson/mmdeploy
-RUN export LD_LIBRARY_PATH=/home/jetson/onnxruntime-linux-x64-1.16.0/lib:$LD_LIBRARY_PATH && export MMDEPLOY_DIR=/home/jetson/mmdeploy && mkdir -p build && cd build && cmake -DCMAKE_CXX_COMPILER=g++-7 -DMMDEPLOY_TARGET_BACKENDS=ort -DONNXRUNTIME_DIR=/home/jetson/onnxruntime-linux-x64-1.15.0/ .. && make -j12 && make install
+RUN export LD_LIBRARY_PATH=/home/jetson/onnxruntime-linux-x64-1.15.0/lib:$LD_LIBRARY_PATH && export MMDEPLOY_DIR=/home/jetson/mmdeploy && mkdir -p build && cd build && cmake -DCMAKE_CXX_COMPILER=g++-7 -DMMDEPLOY_TARGET_BACKENDS=ort -DONNXRUNTIME_DIR=/home/jetson/onnxruntime-linux-x64-1.15.0/ .. && make -j12 && make install
 RUN mim install -e .
 
 WORKDIR /home/jetson
@@ -71,6 +71,14 @@ RUN cd TensorRT-8.6.0.12/python && ls -la
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jetson/TensorRT-8.6.0.12/lib && cd TensorRT-8.6.0.12/python && ls -la && python3 -m pip install tensorrt-8.6.0-cp39-none-linux_x86_64.whl
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jetson/TensorRT-8.6.0.12/lib && cd TensorRT-8.6.0.12/graphsurgeon && python3 -m pip install graphsurgeon-0.4.6-py2.py3-none-any.whl 
 RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jetson/TensorRT-8.6.0.12/lib && cd TensorRT-8.6.0.12/onnx_graphsurgeon && python3 -m pip install onnx_graphsurgeon-0.3.12-py2.py3-none-any.whl
+
+RUN export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/jetson/TensorRT-8.6.0.12/lib && export TENSORRT_DIR=/home/jetson/TensorRT-8.6.0.12 && cd mmdeploy/build && cmake -DMMDEPLOY_TARGET_BACKENDS=trt -DTENSORRT_DIR=/home/jetson/TensorRT-8.6.0.12 .. && make -j8
+
+RUN export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64 && export CPATH=$CPATH:/usr/local/cuda-11.6/targets/x86_64-linux/include && export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/cuda-11.6/targets/x86_64-linux/lib && pip install pycuda 
+
+
+
+RUN export pip install pycuda
 
 WORKDIR /home/jetson
 
