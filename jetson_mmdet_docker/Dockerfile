@@ -1,5 +1,5 @@
-#FROM nvcr.io/nvidia/l4t-pytorch:r32.7.1-pth1.10-py3
-FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime
+FROM nvcr.io/nvidia/l4t-pytorch:r32.7.1-pth1.10-py3
+#FROM nvcr.io/nvidia/l4t-cuda:12.2.12-runtime
 # RUN echo 'debconf debconf/frontend select Noninteractive' | sudo debconf-set-selections
 
 RUN wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null \
