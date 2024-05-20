@@ -16,38 +16,27 @@ RUN sudo apt install -y dbus-x11
 
 RUN sudo apt install python3-pip -y
 
-#  PackageKit-gtk3-module libcanberra-gtk2
-
-# LIB REALSENSE 2.51.1
-#RUN sudo apt-get -y install libglfw3-dev libgl1-mesa-dev libglu1-mesa-dev
-#RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/IntelRealSense/librealsense.git $OPT_PATH/librealsense
-#RUN cd $OPT_PATH/librealsense && git checkout v2.51.1 &&  bash ./scripts/setup_udev_rules.sh 
-#RUN cd $OPT_PATH/librealsense && git checkout v2.53.1 && bash ./scripts/patch-realsense-ubuntu-lts-hwe.sh
-#RUN cd $OPT_PATH/librealsense && git checkout v2.51.1 && mkdir build && cd build && cmake ../ && sudo make uninstall && make clean && make && sudo make install
-
-#RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/Microsoft/vcpkg.git $OPT_PATH/vcpkg
-
-#RUN cd $OPT_PATH/vcpkg && ./bootstrap-vcpkg.sh && ./vcpkg integrate install && ./vcpkg install realsense2
-
-
-#RUN sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE || sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-key F6E65AC044F831AC80A06380C8B3A55A6F3EFCDE \
-#    && sudo add-apt-repository "deb https://librealsense.intel.com/Debian/apt-repo $(lsb_release -cs) main" -u
-
-#RUN sudo apt-get -y update && sudo apt-get install -y librealsense2-dkms librealsense2-utils librealsense2-dev
+RUN sudo apt install terminator -y
 
 # RELASENSE ros 
 RUN sudo apt-get install python3-rosdep python3-catkin-tools -y
-#RUN mkdir -p /home/neduchal/ros_ws/src && cd /home/neduchal/ros_ws/src && git clone https://github.com/IntelRealSense/realsense-ros.git -b ros-development
-#RUN cd /home/neduchal/ros_ws/ && rosdep update && rosdep install -i --from-path src --rosdistro $ROS_DISTRO --skip-keys=librealsense2 -y
-#sudo rosdep init && noetic
-
-#RUN mkdir -p $OPT_PATH && cd $OPT_PATH && git clone https://github.com/neduchal/robot_system_core.git $OPT_PATH/robot_system_core
-#RUN git clone https://github.com/neduchal/home_navigation.git /home/neduchal/ros_ws/src/home_navigation
-
-#RUN echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && . .bashrc
-
 
 RUN source /opt/ros/noetic/setup.bash
+
+COPY arena_api-2.3.3-py3-none-any.zip arena_api-2.3.3-py3-none-any.zip   
+COPY ArenaSDK_v0.1.84_Linux_x64.tar.gz ArenaSDK_v0.1.84_Linux_x64.tar.gz
+
+RUN mkdir -p /home/smart/
+RUN tar -xzvf ArenaSDK_v0.1.84_Linux_x64.tar.gz  && ls
+RUN cp -r ./ArenaSDK_Linux_x64 /home/smart/ArenaSDK && ls
+RUN cd /home/smart/ArenaSDK && sudo sh ./Arena_SDK_Linux_x64.conf
+RUN unzip arena_api-2.3.3-py3-none-any.zip -d arena_python_temp
+RUN cd arena_python_temp && pip install arena_api-2.3.3-py3-none-any.whl
+RUN rm -rf /ArenaSDK_Linux_x64 
+RUN rm -rf ArenaSDK_v0.1.84_Linux_x64.tar.gz
+RUN rm -rf arena_python_temp
+
+ENV ARENA_ROOT=/home/smart/ArenaSDK
 
 ENTRYPOINT ["bash","-i","/ros_entrypoint.sh"]
 ##RUN source ros_entrypoint.sh && cd /home/neduchal/ros_ws/ && colcon build && . ./install/local_setup.bash
