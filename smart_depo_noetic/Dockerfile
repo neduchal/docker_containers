@@ -36,6 +36,11 @@ RUN rm -rf /ArenaSDK_Linux_x64
 RUN rm -rf ArenaSDK_v0.1.84_Linux_x64.tar.gz
 RUN rm -rf arena_python_temp
 
+RUN sudo apt install -y ros-noetic-pcl-ros
+RUN git clone https://github.com/Livox-SDK/Livox-SDK.git
+RUN cd Livox-SDK && cd build && cmake .. && make -j4 && sudo make install
+
+
 ENV ARENA_ROOT=/home/smart/ArenaSDK
 
 ENTRYPOINT ["bash","-i","/ros_entrypoint.sh"]
